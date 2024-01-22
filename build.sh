@@ -10,9 +10,9 @@ PROFILE="generic"
 PACKAGES=""
 # 基础包
 ## 基础组件
-PACKAGES="$PACKAGES bash coremark curl e2fsprogs kmod-iavf kmod-ipt-nat kmod-ipt-nat6 kmod-lib-zstd kmod-tcp-bbr lm-sensors-detect nano wget-ssl zram-swap ipt2socks"
+PACKAGES="$PACKAGES bash coremark curl e2fsprogs kmod-iavf kmod-ipt-nat kmod-ipt-nat6 kmod-lib-zstd kmod-tcp-bbr lm-sensors-detect nano wget-ssl ipt2socks"
 ## 主题
-PACKAGES="$PACKAGES luci-theme-argon luci-i18n-argon-config-zh-cn"
+PACKAGES="$PACKAGES luci-theme-argon" # luci-i18n-argon-config-zh-cn
 ## 界面翻译补全
 PACKAGES="$PACKAGES luci-i18n-opkg-zh-cn luci-i18n-base-zh-cn luci-i18n-firewall-zh-cn"
 
@@ -42,6 +42,8 @@ PACKAGES="$PACKAGES -ppp -ppp-mod-pppoe"
 PACKAGES="$PACKAGES -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -ipv6helper"
 ## remove dhcp server
 PACKAGES="$PACKAGES -odhcpd"
+## remove filetransfer
+PACKAGES="$PACKAGES -luci-app-filetransfer"
 
 # 包含自定义文件的目录
 FILES="files"
