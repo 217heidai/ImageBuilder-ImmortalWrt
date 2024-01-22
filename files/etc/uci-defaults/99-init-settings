@@ -1,0 +1,14 @@
+#!/bin/bash
+#=================================================
+# File name: init-settings.sh
+# Description: This script will be executed during the first boot
+#=================================================
+# Set default LAN_IP AND themes
+# sed -i 's/192.168.1.1/192.168.3.1/' /etc/config/network
+uci batch << EOF
+set network.lan.ipaddr='192.168.3.1'
+set luci.main.mediaurlbase='/luci-static/argon'
+commit
+EOF
+
+exit 0
