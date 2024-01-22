@@ -10,7 +10,7 @@ PROFILE="generic"
 PACKAGES=""
 # 基础包
 ## 基础组件
-PACKAGES="$PACKAGES bash coremark curl e2fsprogs kmod-iavf kmod-ipt-nat kmod-ipt-nat6 kmod-lib-zstd kmod-tcp-bbr lm-sensors-detect nano wget-ssl zram-swap"
+PACKAGES="$PACKAGES bash coremark curl e2fsprogs kmod-iavf kmod-ipt-nat kmod-ipt-nat6 kmod-lib-zstd kmod-tcp-bbr lm-sensors-detect nano wget-ssl zram-swap ipt2socks"
 ## 主题
 PACKAGES="$PACKAGES luci-theme-argon luci-i18n-argon-config-zh-cn"
 ## 界面翻译补全
