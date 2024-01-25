@@ -1,13 +1,59 @@
-#!/bin/bash
+#!/bin/sh
 #=================================================
 # File name: init-settings.sh
 # Description: This script will be executed during the first boot
 #=================================================
-# Set default LAN_IP AND themes
-# sed -i 's/192.168.1.1/192.168.3.1/' /etc/config/network
+root_password="password"
+
+if [ -n "$root_password" ]; then
+  (echo "$root_password"; sleep 1; echo "$root_password") | passwd > /dev/null
+fi
+
+# dhcp
 uci batch << EOF
-set network.lan.ipaddr='192.168.3.1'
-set luci.main.mediaurlbase='/luci-static/argon'
+set dhcp.lan.ignore='1'
+set dhcp.lan.dynamicdhcp='0'
+add_list dhcp.lan.ra_flags='none'
+commit
+EOF
+
+# firewall
+uci batch << EOF
+delete firewall.@defaults[0].syn_flood
+set firewall.@defaults[0].forward='ACCEPT'
+delete firewall.@zone[1]
+delete firewall.@forwarding[0]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+commit
+EOF
+
+# network
+uci batch << EOF
+set network.lan.device='eth0'
+set network.lan.ipaddr='192.168.1.6'
+set network.lan.gateway='192.168.1.2'
+add_list network.lan.dns='192.168.1.3'
+commit
+EOF
+
+# upnpd
+uci batch << EOF
+set upnpd.config.enabled='1'
+set upnpd.config.igdv1='1'
+delete upnpd.config.enable_natpmp
+delete upnpd.config.enable_upnp
+delete upnpd.config.secure_mode
+delete upnpd.config.log_output
+delete upnpd.config.external_iface
 commit
 EOF
 
