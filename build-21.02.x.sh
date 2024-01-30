@@ -24,9 +24,13 @@ PACKAGES="$PACKAGES luci-i18n-autoreboot-zh-cn"
 
 # 服务
 ## passwall
-PACKAGES="$PACKAGES ipt2socks luci-i18n-passwall-zh-cn" # 依赖 ipt2socks
+PACKAGES="$PACKAGES luci-i18n-passwall-zh-cn" # 依赖 ipt2socks
 ## upnp
 PACKAGES="$PACKAGES luci-i18n-upnp-zh-cn"
+
+# 网络
+## turboacc
+PACKAGES="$PACKAGES luci-i18n-turboacc-zh-cn" # 补齐 turboacc 中文翻译
 
 
 # 移除不需要的包

@@ -29,8 +29,8 @@ jobs:
     steps:
       - name: Initialization Environment
         run: |
-          sudo apt-get -qq update
-          sudo apt-get -qq install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc rsync wget unzip qemu-utils mkisofs
+          sudo apt -qq update
+          sudo apt -qq install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc rsync wget unzip qemu-utils mkisofs python3-distutils
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "DATE=$(TZ=UTC-8 date +%Y%m%d)" >> $GITHUB_ENV
           echo "DATETIME=$(TZ=UTC-8 date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
