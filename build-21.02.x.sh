@@ -50,7 +50,7 @@ PACKAGES="$PACKAGES -ipv6helper"
 PACKAGES="$PACKAGES -luci-app-filetransfer"
 
 # 包含自定义文件的目录
-FILES="files"
+FILES="files/21.02.x"
 
 # 要禁用的 /etc/init.d 中服务的名称
 DISABLED_SERVICES="sshd"

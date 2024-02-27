@@ -68,20 +68,29 @@ WEB 页面无法直接创建 OpenWrt LXC 容器，此处需要使用 shell 命�
     net0 bridge=vmbr0,name=eth0
         容器网络设置，为容器中增加网卡 eth0 ，桥接到主机的 vmbr0 网卡。
     ```
-3. 修改 LXC 容器配置文件 `/etc/pve/lxc/100.conf`（100 为以上创建容器时的容器编号），在文末增加三行：
+3. 修改 LXC 容器配置文件 `/etc/pve/lxc/100.conf`（100 为以上创建容器时的容器编号），在文末增加：
     ```bash
     onboot: 1
     features: fuse=1,nesting=1
     lxc.include: /usr/share/lxc/config/openwrt.common.conf
+    lxc.cgroup2.devices.allow: c 108:0 rwm
+    lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+    lxc.cap.drop:
     ```
     参数说明：
     ```bash
     onboot: 1
         开机自启动。
     features: fuse=1,nesting=1
-        特权容器，允许嵌套。
+        特权容器，允许嵌套。不开特权容器会出现各种奇怪问题，如 dnsmasq 无法启动。
     lxc.include: /usr/share/lxc/config/openwrt.common.conf
         引用 PVE 自带的 OpenWrt 配置。
+    lxc.cgroup2.devices.allow: c 108:0 rwm
+        lxc 运行一些服务类的系统必须的。
+    lxc.mount.entry: /dev/net/tun dev/net/tun none bind,create=file
+        挂载 tun 到 lxc 内。
+    lxc.cap.drop:
+        取消 openwrt.common.conf 里面 对 cap 的限制，否则 openclash 等服务无法使用。
     ```
 
 ### 其它虚拟机安装方式

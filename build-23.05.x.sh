@@ -31,8 +31,6 @@ PACKAGES="$PACKAGES luci-i18n-upnp-zh-cn"
 # 网络
 ## turboacc
 #PACKAGES="$PACKAGES luci-i18n-turboacc-zh-cn" # 补齐 turboacc 中文翻译。官方源未提供 turboacc。
-## firewall
-#PACKAGES="$PACKAGES -nftables -firewall4 iptables firewall"  # firewall4 存在兼容问题，暂时换回老版本
 
 # 移除不需要的包
 ## 磁盘驱动和挂载
@@ -51,7 +49,7 @@ PACKAGES="$PACKAGES -ipv6helper"
 PACKAGES="$PACKAGES -luci-app-filetransfer"
 
 # 包含自定义文件的目录
-FILES="files"
+FILES="files/23.05.x"
 
 # 要禁用的 /etc/init.d 中服务的名称
 DISABLED_SERVICES="sshd"

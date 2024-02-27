@@ -1,0 +1,68 @@
+#!/bin/sh
+#=================================================
+# File name: init-settings.sh
+# Description: This script will be executed during the first boot
+#=================================================
+root_password="password"
+
+if [ -n "$root_password" ]; then
+  (echo "$root_password"; sleep 1; echo "$root_password") | passwd > /dev/null
+fi
+
+# dhcp
+uci batch << EOF
+delete dhcp.dnsmasq.boguspriv
+delete dhcp.dnsmasq.filterwin2k
+delete dhcp.dnsmasq.nonegcache
+delete dhcp.dnsmasq.nonwildcard
+delete dhcp.dnsmasq.filter_a
+delete dhcp.dnsmasq.filter_aaaa
+set dhcp.dnsmasq.cachesize='0'
+set dhcp.lan.dynamicdhcp='0'
+commit
+EOF
+
+# firewall
+uci batch << EOF
+delete firewall.@defaults[0].syn_flood
+set firewall.@defaults[0].input='ACCEPT'
+set firewall.@defaults[0].forward='ACCEPT'
+delete firewall.@zone[1]
+delete firewall.@forwarding[0]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+delete firewall.@rule[-1]
+commit
+EOF
+
+# network
+uci batch << EOF
+delete network.@device[0]
+set network.lan.device='eth0'
+set network.lan.ipaddr='192.168.1.5'
+set network.lan.gateway='192.168.1.2'
+add_list network.lan.dns='192.168.1.3'
+commit
+EOF
+
+# upnpd
+uci batch << EOF
+delete upnpd.config.enable_natpmp
+delete upnpd.config.enable_upnp
+delete upnpd.config.secure_mode
+delete upnpd.config.log_output
+delete upnpd.config.use_stun
+delete upnpd.config.stun_host
+delete upnpd.config.stun_port
+set upnpd.config.enabled='1'
+set upnpd.config.igdv1='1'
+commit
+EOF
+
+exit 0
