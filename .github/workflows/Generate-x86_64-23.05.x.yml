@@ -16,7 +16,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DOWNLOAD_BASE: https://downloads.immortalwrt.org
   VENDOR: immortalwrt
-  VERSION: 23.05.1
+  VERSION: 23.05.2
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
