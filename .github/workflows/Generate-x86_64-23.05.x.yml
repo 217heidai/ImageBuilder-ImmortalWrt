@@ -16,7 +16,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   DOWNLOAD_BASE: https://downloads.immortalwrt.org
   VENDOR: immortalwrt
-  VERSION: 23.05.2
+  VERSION: 23.05
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,7 +30,7 @@ jobs:
       - name: Initialization Environment
         run: |
           sudo apt -qq update
-          sudo apt -qq install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc rsync wget unzip qemu-utils mkisofs python3-distutils
+          sudo apt -qq install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc rsync wget unzip qemu-utils mkisofs python3-distutils zstd
           sudo timedatectl set-timezone "Asia/Shanghai"
           echo "DATE=$(TZ=UTC-8 date +%Y%m%d)" >> $GITHUB_ENV
           echo "DATETIME=$(TZ=UTC-8 date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
@@ -43,18 +43,18 @@ jobs:
 
       - name: Download Image Builder
         run: |
-          wget $DOWNLOAD_BASE/releases/$VERSION/targets/x86/64/$VENDOR-imagebuilder-$VERSION-x86-64.Linux-x86_64.tar.xz
-          tar -xvf $VENDOR-imagebuilder-$VERSION-x86-64.Linux-x86_64.tar.xz
-          rm -rf $VENDOR-imagebuilder-$VERSION-x86-64.Linux-x86_64.tar.xz
-          cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$VENDOR-imagebuilder-$VERSION-x86-64.Linux-x86_64/
+          wget $DOWNLOAD_BASE/snapshots/targets/x86/64/$VENDOR-imagebuilder-x86-64.Linux-x86_64.tar.zst
+          tar -I zstd -xvf $VENDOR-imagebuilder-x86-64.Linux-x86_64.tar.zst
+          rm -rf $VENDOR-imagebuilder-x86-64.Linux-x86_64.tar.zst
+          cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$VENDOR-imagebuilder-x86-64.Linux-x86_64/
       
       - name: Run Patch and DIY Scripts
-        working-directory: ${{ env.VENDOR }}-imagebuilder-${{ env.VERSION }}-x86-64.Linux-x86_64
+        working-directory: ${{ env.VENDOR }}-imagebuilder-x86-64.Linux-x86_64
         run: |
           bash scripts/builder-patch-23.05.x.sh
 
       - name: Generate Firmware
-        working-directory: ${{ env.VENDOR }}-imagebuilder-${{ env.VERSION }}-x86-64.Linux-x86_64
+        working-directory: ${{ env.VENDOR }}-imagebuilder-x86-64.Linux-x86_64
         run: |
           bash build-23.05.x.sh
 
@@ -64,7 +64,7 @@ jobs:
         with:
           repo_token: ${{ env.GITHUB_TOKEN }}
           file_glob: true
-          file: ${{ env.VENDOR }}-imagebuilder-${{ env.VERSION }}-x86-64.Linux-x86_64/bin/targets/x86/64/*
+          file: ${{ env.VENDOR }}-imagebuilder-x86-64.Linux-x86_64/bin/targets/x86/64/*
           asset_name: ${{ github.event.repository.name }}-${{ github.sha }}
           tag: ${{ env.VENDOR }}-${{ env.VERSION }}-x86_64-${{ env.DATETIME }}
           overwrite: true
