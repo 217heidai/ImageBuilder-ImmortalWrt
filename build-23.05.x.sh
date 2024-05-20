@@ -24,7 +24,7 @@ PACKAGES="$PACKAGES luci-i18n-autoreboot-zh-cn"
 
 # 服务
 ## passwall
-PACKAGES="$PACKAGES luci-i18n-passwall-zh-cn" # 依赖 ipt2socks
+PACKAGES="$PACKAGES luci-i18n-passwall-zh-cn"
 ## upnp
 PACKAGES="$PACKAGES luci-i18n-upnp-zh-cn"
 
