@@ -1,4 +1,5 @@
 # ImageBuilder-ImmortalWrt
+***不再更新，旁路网关编译合并到 [OpenWrt-Builder](https://github.com/217heidai/OpenWrt-Builder)***
 基于 ImageBuilder 定制的 ImmortalWrt 旁路网关。组件大量精简，仅适合虚拟机安装（精简了实体网卡驱动）。
 
 # 旁路网关
